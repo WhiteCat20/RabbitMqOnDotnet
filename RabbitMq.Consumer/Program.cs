@@ -10,7 +10,6 @@ var factory = new ConnectionFactory()
 var connection = await factory.CreateConnectionAsync();
 var channel = await connection.CreateChannelAsync();
 
-// Pastikan queue ada
 await channel.QueueDeclareAsync(
     queue: "message",
     durable: true,
@@ -25,7 +24,7 @@ consumer.ReceivedAsync += async (model, ea) =>
     var body = ea.Body.ToArray();
     var message = Encoding.UTF8.GetString(body);
 
-    Console.WriteLine($"[x] Received: {message}");
+    Console.WriteLine($"[x] Received: {message}, Routing Key : {ea.RoutingKey}");
 
     await Task.Delay(500);
 
